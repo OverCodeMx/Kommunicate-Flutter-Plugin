@@ -15,7 +15,7 @@ import io.kommunicate.Kommunicate;
 import io.kommunicate.callbacks.KMLogoutHandler;
 import io.kommunicate.callbacks.KmCallback;
 import io.kommunicate.users.KMUser;
-
+import android.util.Log;
 import com.applozic.mobicomkit.api.account.user.AlUserUpdateTask;
 import com.applozic.mobicomkit.feed.ChannelFeedApiResponse;
 import com.applozic.mobicomkit.listners.AlCallback;
@@ -31,6 +31,7 @@ public class KommunicateFlutterPlugin implements MethodCallHandler {
     /**
      * Plugin registration.
      */
+    private static final String TAG = "KommunicateFlutter";
     private static final String SUCCESS = "Success";
     private static final String ERROR = "Error";
     private Activity context;
@@ -66,7 +67,11 @@ public class KommunicateFlutterPlugin implements MethodCallHandler {
             KmCallback callback = new KmCallback() {
                 @Override
                 public void onSuccess(Object message) {
-                    result.success(message);
+                    try {
+                        result.success(message);
+                    } catch (IllegalStateException e) {
+                        Log.d(TAG, e.toString());
+                    }
                 }
 
                 @Override
