@@ -11,8 +11,14 @@ class KommunicateFlutterPlugin {
     return version;
   }
 
-  static Future<dynamic> buildConversation(dynamic conversationObject) async {
-    return await _channel.invokeMethod('buildConversation', conversationObject);
+  static Future<dynamic> buildConversation(dynamic conversationObject) async 
+    String message = '';
+    try{
+      message = await _channel.invokeMethod('buildConversation', conversationObject);
+    } on PlatformException catch(e){
+      message = e.message;
+    }
+    return message;
   }
 
   static Future<dynamic> logout() async {
